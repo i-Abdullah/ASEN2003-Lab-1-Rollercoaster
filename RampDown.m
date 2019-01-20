@@ -1,4 +1,4 @@
-function [ TimeElapsed VelocFinal AccelerationFinal PositionFinalX, PositionFinalY, G ] = RampDown(Velocx,VelocY,AccelrX, AccelrY, TimeIn, RampAngle, Length, InitialHeight )
+function [ TimeElapsed VelocFinal AccelerationFinal PositionFinalY, PositionFinalX, G] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, InitialHeight )
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
@@ -18,24 +18,20 @@ vector, i.e where the rider is looking.
 
 Inputs:
 
-1- VelocX : initial Velocity in the x direction, where x is in direction of
-ramp.
+1- VelocIn : Initial velocity (Total magnitude).
 
-2- VelocY : initial Velocity in the y direction, where y is in direction
-normal to ramp.
+2- AccelrX : initial accelration in x direction.
 
-3- AccelrX : initial accelration in x direction.
+3- AccelrY : initial accelration in y direction.
 
-4- AccelrX : initial accelration in y direction.
-
-5- TimeIn: AccelrX : initial time relative to the whole roller coaster when
+4- TimeIn: AccelrX : initial time relative to the whole roller coaster when
 the cart started going on the ramp.
 
-6- RampAngle: relative to horizon, in degrees.
+5- RampAngle: relative to horizon, in degrees.
 
-7- Length: hypotenuse of the ramp.
+6- Length: hypotenuse of the ramp.
 
-8 - InitialHeight: Initial Height ramp starts from. 
+7 - InitialHeight: Initial Height ramp starts from. 
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -50,10 +46,10 @@ of it will transfer after the ramp.
 3- AccelerationFinal: accelration at the end of the ramp. In this case all
 of it will be in direction of +x (read note).
 
-4- PositionFinalX: X location, or distance covered in x direction in
+4- PositionFinalX: Y location, or distance covered in Y direction in
 cartesian coordinates system.
 
-5- PositionFinalY:  Y location, or distance covered in x direction in
+5- PositionFinalY:  X location, or distance covered in x direction in
 cartesian coordinates system.
 
 6- G: How many G's felt (relative to Earth's accelration).
@@ -67,7 +63,7 @@ g = 9.81;
 
 %% accelerations 
 
-ax = 9.81 * sind ( RampAngle ) ;
+ax = g * sind ( RampAngle ) ;
 ay = 0 ;
 
 AccelerationFinal = ax;
@@ -80,8 +76,8 @@ RampHeight = Length * sind ( RampAngle );
 RampWidth = Length * cosd ( RampAngle );
 
 % store as output
-PositionFinalX = RampHeight;
-PositionFinalY = RampWidth;
+PositionFinalX = RampWidth;
+PositionFinalY = RampHeight;
 
 % get final velocity based on height.
 syms h
@@ -89,7 +85,7 @@ v(h) = sqrt ( 2 * g * (InitialHeight - h)) ;
 
 
 %evaluate veloc function defined above.
-VelocFinal = double(v(RampHeight));
+VelocFinal = double(v(InitialHeight - RampHeight));
 
 
 %% time spent: since acceleration is constant, we can go ahead and use kinematick equations.
@@ -100,7 +96,7 @@ VelocFinal = double(v(RampHeight));
 % ( ( v - v0 ) / a0 ) + t0 = t , where all of these in x since ay is 0.
 % Again the coordinate system is tilted, but the time should be the same.
 
-TimeElapsed =  ( (VelocFinal - Velocx) / AccelrX ) * TimeIn ;
+TimeElapsed =  ( (VelocFinal - VelocIn) / AccelrX ) * TimeIn ;
 
 %% G's felt.
 
