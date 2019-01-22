@@ -1,4 +1,4 @@
-function [ TimeElapsed VelocFinal AccelerationFinal PositionFinalY, PositionFinalX, G] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, InitialHeight )
+function [ TimeElapsed VelocFinal AccelerationFinal PositionFinalY, PositionFinalX, G] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y_init, x_init )
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
@@ -31,7 +31,9 @@ the cart started going on the ramp.
 
 6- Length: hypotenuse of the ramp.
 
-7 - InitialHeight: Initial Height ramp starts from. 
+7 - y_init: Initial y location of ramp. 
+
+8 - x_init: Initial x location of ramp.
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -76,19 +78,19 @@ RampHeight = Length * sind ( RampAngle );
 RampWidth = Length * cosd ( RampAngle );
 
 % store as output
-PositionFinalX = RampWidth;
-PositionFinalY = RampHeight;
+PositionFinalX = x_init + RampWidth;
+PositionFinalY = y_init - RampHeight;
 
 % get final velocity based on height.
 syms h
-v(h) = sqrt ( 2 * g * (InitialHeight - h)) ; 
+v(h) = sqrt ( 2 * g * (y_init - h)) ; 
 
 
 %evaluate veloc function defined above.
-VelocFinal = double(v(InitialHeight - RampHeight));
+VelocFinal = double(v(y_init - RampHeight));
 
 
-%% time spent: since acceleration is constant, we can go ahead and use kinematick equations.
+%% time spent: since acceleration is constant, we can go ahead and use kinematic equations.
 
 % here all velocity will be in the x direction, thus we can get time from
 % kinematic equations that uses velocity and acceler will be used.
@@ -96,12 +98,15 @@ VelocFinal = double(v(InitialHeight - RampHeight));
 % ( ( v - v0 ) / a0 ) + t0 = t , where all of these in x since ay is 0.
 % Again the coordinate system is tilted, but the time should be the same.
 
-TimeElapsed =  ( (VelocFinal - VelocIn) / AccelrX ) * TimeIn ;
+
+TimeElapsed =  ( (VelocFinal - VelocIn) / ax ) * TimeIn ;
+
+
 
 %% G's felt.
 
 G = sqrt ( ax^2 + ay^2 ) / g ; 
 fprintf('The Ramp down will make you feel: %6.2f %12.8f \n ', G)
-fprintf(' G \n ' );
+fprintf(' G, forward. \n ' );
 
 end

@@ -1,5 +1,5 @@
 function [ TimeElapsed Veloc Acceleration Position ] = CircularLoop(VelocIn,AccelIn,PpsitionIn)
-% 
+
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
@@ -61,9 +61,6 @@ cartesian coordinates system.
 
 In circular loop the only acceleration is normal. which will be represented
 by v^2/r , where r is the raduis. 
-
-
-
 
 
 
