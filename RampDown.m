@@ -1,4 +1,4 @@
-function [ TimeElapsed Outputs ] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y_init, x_init,RollerHeight )
+function [ TimeElapsed Outputs ] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y0, x0, z0, RollerHeight )
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
@@ -79,8 +79,8 @@ RampHeight = Length * sind ( RampAngle );
 RampWidth = Length * cosd ( RampAngle );
 
 % store as output
-PositionFinalX = x_init + RampWidth;
-PositionFinalY = y_init - RampHeight;
+PositionFinalX = x0 + RampWidth;
+PositionFinalY = y0 - RampHeight;
 
 % get final velocity based on height.
 syms h
@@ -88,7 +88,7 @@ v(h) = sqrt ( 2 * g * (RollerHeight - h)) ;
 
 
 %evaluate veloc function defined above.
-VelocFinal = double(v(y_init - RampHeight));
+VelocFinal = double(v(y0 - RampHeight));
 
 
 %% time spent: since acceleration is constant, we can go ahead and use kinematic equations.
@@ -109,5 +109,11 @@ TimeElapsed =  ( (VelocFinal - VelocIn) / ax ) * TimeIn ;
 G =  cosd(theta) ; 
 fprintf('The Ramp down will make you feel: %6.2f %12.8f \n ', G)
 fprintf(' G, forward. \n ' );
+
+%% write outputs
+
+% All G's here are forward.
+Outputs = [ PositionFinalX ; PositionFinalY ; z0 ; G  ] ;
+
 
 end

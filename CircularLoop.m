@@ -1,4 +1,4 @@
-function [ TimeElapsed  Outputs ] = CircularLoop(V0, t0, r, x0, y0, z0,y_init)
+function [ TimeElapsed  Outputs ] = CircularLoop(V0, t0, r, x0, y0, z0,RollerHeight)
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
@@ -70,7 +70,7 @@ currentX(theta_current) = x0 + r*sind(theta_current);
 
 %
 syms currentHeight
-v(theta_current) = sqrt ( 2 * g * (y_init - (y0 + r - r*cosd(theta_current)))) ; 
+v(theta_current) = sqrt ( 2 * g * (RollerHeight - (y0 + r - r*cosd(theta_current)))) ; 
 
 % get value for  accelration 
 

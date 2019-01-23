@@ -1,4 +1,4 @@
-function [ time Outputs ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
+function [ TimeElapsed Outputs ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
 
 %{ This function is to describe the motion of the cart on a parabolic hill. Using 
 % Physics we know that this thing will be under projectile motion
@@ -38,7 +38,7 @@ CurrentVx = [];
 
 y_loop = y0+1 ;
 i = 0 ; % time counter
-time = i;
+TimeElapsed = i;
 Outputs = [ CurrentX ; CurrentY ; CurrentVy ; CurrentVx ] ;
 
 while y0<=y_loop
@@ -47,7 +47,7 @@ while y0<=y_loop
     CurrentY = [ CurrentY ; double(y(i)) ] ;
     CurrentVy = [ CurrentVy ; double(vy(i)) ] ;
     CurrentVx = [ CurrentVx ; vx ] ;
-    time = [ time ; i ] ;    
+    TimeElapsed = [ TimeElapsed ; i ] ;    
     y_loop = double(y(i));
         i = i + 0.001;
 
