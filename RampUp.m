@@ -1,4 +1,4 @@
-function [ TimeElapsed Veloc Acceleration Position ] = RampUp(VelocIn,AccelIn,PositionIn)
+function [ TimeElapsed VelocFinal AccelerationFinal yf, xf, zf, G ] = RampUp(VelocIn,AccelIn,PositionIn)
 % 
 %
 %
@@ -21,8 +21,7 @@ function [ TimeElapsed Veloc Acceleration Position ] = RampUp(VelocIn,AccelIn,Po
 %
 
 
-%%
-
+%% using 
 
 
 

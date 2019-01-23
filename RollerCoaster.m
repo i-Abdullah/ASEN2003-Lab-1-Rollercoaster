@@ -9,7 +9,7 @@ close all;
 %% define constants
 
 g = 9.81;
-h0 = 125 ; %initial height in meters
+RollerHeight = 125 ; %initial height in meters
 m = 70;
 
 %% velc

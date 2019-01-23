@@ -1,29 +1,29 @@
-function [ TimeElapsed Veloc Acceleration Position ] = CircularLoop(VelocIn,AccelIn,PpsitionIn)
-
+function [ TimeElapsed  Outputs ] = CircularLoop(V0, t0, r, x0, y0, z0,y_init)
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
-
 This function is one segment of a roller coaster, it attempts to module a
 Circular Loop, where the user will determine the ramp specifications, and
 initial conditions, and the function will return the end status. 
 
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 Inputs:
 
-1- VelocIn : Initial velocity (Total magnitude).
+1- V0 : Initial velocity (Total magnitude).
 
-2- AccelrX : initial accelration in x direction.
+2- t0 : initial time relative to the whole roller coaster when
+the cart started going on the Loop.
 
-3- AccelrY : initial accelration in y direction.
+3- r : raduis of the loop.
 
 4- TimeIn: AccelrX : initial time relative to the whole roller coaster when
 the cart started going on the ramp.
+
+5- y_init : 125 m in this case.
 
 5- RampAngle: relative to horizon, in degrees.
 
@@ -55,13 +55,40 @@ cartesian coordinates system.
 %}
 
 
-%% info
+%% using Normal tangent coordinate system.
 
-%{
+% we can know our height based on our simple geometry.
 
-In circular loop the only acceleration is normal. which will be represented
-by v^2/r , where r is the raduis. 
+thetaStep = 0:0.1:360;
+g = 9.81;
 
 
+syms theta_current 
+
+currentHeight(theta_current) = y0 + r - r*cosd(theta_current);
+currentX(theta_current) = x0 + r*sind(theta_current);
+
+%
+syms currentHeight
+v(theta_current) = sqrt ( 2 * g * (y_init - (y0 + r - r*cosd(theta_current)))) ; 
+
+% get value for  accelration 
+
+an = (v^2)/r %normal accelration
+at = g*sind(theta_current); %tangential accelration
+
+Normal(theta_current) = (an) + g*cosd(theta_current) ; % normal force (N divided by m, so later you can just multiply by 1/g!) to get g's.
+
+% Normal force will make the 
+
+
+
+%% outputs
+
+zf = 1; %final z position, will assume it's one because cart needs to go into the page to finish the loop.
+
+G = double(Normal(thetaStep)/9.81);
+
+Outputs = [ currentHeight ; currentX ; G ] ;
 
 end

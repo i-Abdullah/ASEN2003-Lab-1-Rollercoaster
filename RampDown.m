@@ -1,4 +1,4 @@
-function [ TimeElapsed VelocFinal AccelerationFinal PositionFinalY, PositionFinalX, G] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y_init, x_init )
+function [ TimeElapsed Outputs ] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y_init, x_init,RollerHeight )
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
@@ -56,6 +56,7 @@ cartesian coordinates system.
 
 6- G: How many G's felt (relative to Earth's accelration).
 
+7- RollerHeight: height of roller coaster total.
 %}
 
 %% Define constants
@@ -83,7 +84,7 @@ PositionFinalY = y_init - RampHeight;
 
 % get final velocity based on height.
 syms h
-v(h) = sqrt ( 2 * g * (y_init - h)) ; 
+v(h) = sqrt ( 2 * g * (RollerHeight - h)) ; 
 
 
 %evaluate veloc function defined above.
@@ -105,7 +106,7 @@ TimeElapsed =  ( (VelocFinal - VelocIn) / ax ) * TimeIn ;
 
 %% G's felt.
 
-G = sqrt ( ax^2 + ay^2 ) / g ; 
+G =  cosd(theta) ; 
 fprintf('The Ramp down will make you feel: %6.2f %12.8f \n ', G)
 fprintf(' G, forward. \n ' );
 
