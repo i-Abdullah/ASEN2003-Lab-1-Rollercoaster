@@ -18,11 +18,10 @@ g = 9.81;
 
 vx = v*cosd(theta);
 
-syms t % time, all equations will be depnding on it.
-
-vy(t) = -g*t + v*sind(theta);
-y(t) = -(1/2)* g * t^2 + v*sind(theta) * t + y0 ;
-x(t) = vx*t + x0;
+% time, all equations will be depnding on it.
+vy = @(t) -g*t + v*sind(theta);
+y = @(t) -(1/2)* g * t^2 + v*sind(theta) * t + y0 ;
+x = @(t) vx*t + x0;
 
 
 % place holders
@@ -44,10 +43,10 @@ Outputs = [ CurrentX ; CurrentY ; CurrentVy ; CurrentVx ] ;
 
 while y0<=y_loop
     
-    CurrentX = [ CurrentX ; double(x(i)) ] ;
-    CurrentY = [ CurrentY ; double(y(i)) ] ;
+    CurrentX = [ CurrentX ; x(i) ] ;
+    CurrentY = [ CurrentY ; y(i) ] ;
     CurrentZ = [ CurrentZ ; z0 ];
-    CurrentVy = [ CurrentVy ; double(vy(i)) ] ;
+    CurrentVy = [ CurrentVy ; vy(i) ] ;
     CurrentVx = [ CurrentVx ; vx ] ;
     TimeElapsed = [ TimeElapsed ; i ] ;    
     y_loop = double(subs(y,i));
@@ -62,7 +61,7 @@ end
 
     Outputs_Loc = [ CurrentX' ; CurrentY' ; CurrentZ' ] ;
     Outputs_Velocity = [ CurrentVy' ; CurrentVx' ] ;
-    Outputs_G = [ 0 ] ;  
+    Outputs_G = [ zeros(1,length(CurrentX)) ] ;  
 
 
 end

@@ -27,29 +27,53 @@ a0x = 0;
 
 %% ramp down
 
- [ Time G Loca Veloc ] = RampDown(Vi,0, g, 0, 60, 60, h0, Xi, Zi, h0 );
- 
+Ramptheta = 60 ;
+
+ [ TimeNew GNew LocaNew VelocNew ] = RampDown(Vi,0, g, 0, 60, Ramptheta, h0, Xi, Zi, h0 );
+
  % concatate:
  
- G = cat(1,1,G);
- xPosit = cat(1,0,Loca(1));
- yPosit = cat(1,h0,Loca(2));
- zPosit = cat(1,0,Loca(3));
- xVeloc = cat(1,Vi,Veloc(1)');
- t = cat(1,0,Time(1));
+ G = cat(1,1,GNew);
+ xPosit = cat(1,0,LocaNew(1));
+ yPosit = cat(1,h0,LocaNew(2));
+ zPosit = cat(1,0,LocaNew(3));
+ xVeloc = cat(1,Vi,VelocNew(1)');
+ t = cat(1,0,TimeNew(1));
+ 
+ %% transition off rampCurvture
+ 
+ Curvture = 5; % Choosen arbitrary.
+  
+ x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
+
+ [ TimeNew GNew LocaNew VelocNew ] = Transition_fromRampDown(t0,x0, y0, z0,Ramptheta,Curvture);
+
+ 
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,LocaNew(1,:)');
+ yPosit = cat(1,yPosit,LocaNew(2,:)');
+ zPosit = cat(1,zPosit,LocaNew(3,:)');
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew);
 
  %% Linear section: transition, For 5 meters
  
  distance = 5; %Linear distance
  
- G = cat(1,G,1);
- xPosit = cat(1,xPosit,Loca(1,:)+distance);
- yPosit = cat(1,yPosit,Loca(2,:));
- zPosit = cat(1,zPosit,Loca(3,:));
- xVeloc = Veloc;
- t = cat(1,0,Time(1)); % needs to be fixed.
- 
- 
+  x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
+
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,x0+distance);
+ yPosit = cat(1,yPosit,y0);
+ zPosit = cat(1,zPosit,z0);
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew); 
  %% circular loop:
  
  % initial info.
@@ -57,66 +81,112 @@ a0x = 0;
  x0 = xPosit(length(xPosit));
  y0 = yPosit(length(yPosit));
  z0 = zPosit(length(zPosit));
- r = 2; %loop Raduis
+ r = 7; %loop Raduis
  
  [ TimeNew GNew LocaNew VelocNew ] = CircularLoop(xVeloc, t, r, x0, y0, z0,h0);
 
  
- G = cat(1,G,GNew');
+  G = cat(1,G,GNew');
  xPosit = cat(1,xPosit,LocaNew(1,:)');
  yPosit = cat(1,yPosit,LocaNew(2,:)');
  zPosit = cat(1,zPosit,LocaNew(3,:)');
  xVeloc = cat(1,xVeloc,VelocNew');
- t = cat(1,Time,TimeNew);
+ t = cat(1,t,TimeNew);
 
- %% linear segment: transition for 5 meters
+ %% Linear section: transition, For 5 meters
  
- distance = 10; %Linear distance
+ distance = 5; %Linear distance
  
- [ r c ] = size(LocaNew);
- 
- G = cat(1,G,1);
- xPosit = cat(1,xPosit,LocaNew(1,c)+distance);
- yPosit = cat(1,yPosit,LocaNew(2,c));
- zPosit = cat(1,zPosit,LocaNew(3,c));
- 
- xVeloc = Veloc;
- t = cat(1,0,Time(1)); % needs to be fixed.
+  x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
 
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,x0+distance);
+ yPosit = cat(1,yPosit,y0);
+ zPosit = cat(1,zPosit,z0);
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew); 
+
+  %% transition into hill
+ 
+ Curvture = 5; % Choosen arbitrary.
+  
+ x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
+
+ [ TimeNew GNew LocaNew VelocNew ] = Transition_into(t0,x0, y0, z0,Ramptheta,Curvture);
+
+ 
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,LocaNew(1,:)');
+ yPosit = cat(1,yPosit,LocaNew(2,:)');
+ zPosit = cat(1,zPosit,LocaNew(3,:)');
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew);
+
+ 
  %% parabolic hill:
  
  
 x0 = xPosit(length(xPosit));
 y0 = yPosit(length(yPosit));
 z0 = zPosit(length(zPosit));
-theta = 60;
+theta = 45;
 a0 = 0;
 v = double(v(y0));
 t0 = 0;
 
- [ TimeNew GNew LocaNew VelocNew ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
+ [ TimeNew GNew LocaNew VelocNew ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v);
  
   G = cat(1,G,GNew');
  xPosit = cat(1,xPosit,LocaNew(1,:)');
  yPosit = cat(1,yPosit,LocaNew(2,:)');
  zPosit = cat(1,zPosit,LocaNew(3,:)');
- xVeloc = cat(1,xVeloc,VelocNew(2,:)');
- t = cat(1,Time,TimeNew);
+ xVeloc = cat(1,xVeloc,VelocNew(1,:)');
+ t = cat(1,t,TimeNew);
 
+ %% transition off the hill.
+  
+ Curvture = 20; % Choosen arbitrary.
+  
+ x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
+
+ [ TimeNew GNew LocaNew VelocNew ] = Transition_out(t0,x0, y0, z0,Ramptheta,Curvture,1);
+
+ 
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,LocaNew(1,:)');
+ yPosit = cat(1,yPosit,LocaNew(2,:)');
+ zPosit = cat(1,zPosit,LocaNew(3,:)');
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew);
+
+ 
   %% linear segment: transition for 5 meters
  
- distance = 10; %Linear distance
+ %% Linear section: transition, For 5 meters
  
- [ r c ] = size(LocaNew);
+ distance = 5; %Linear distance
  
- G = cat(1,G,1);
- xPosit = cat(1,xPosit,LocaNew(1,c)+distance);
- yPosit = cat(1,yPosit,LocaNew(2,c));
- zPosit = cat(1,zPosit,LocaNew(3,c));
- 
- xVeloc = Veloc;
- t = cat(1,0,Time(1)); % needs to be fixed.
+  x0 = xPosit(length(xPosit));
+ y0 = yPosit(length(yPosit));
+ z0 = zPosit(length(zPosit));
+ t0 = 0;
 
+  G = cat(1,G,GNew');
+ xPosit = cat(1,xPosit,x0+distance);
+ yPosit = cat(1,yPosit,y0);
+ zPosit = cat(1,zPosit,z0);
+ xVeloc = cat(1,xVeloc,VelocNew');
+ t = cat(1,t,TimeNew); 
+ 
   %% circular loop:
  
  % initial info.
