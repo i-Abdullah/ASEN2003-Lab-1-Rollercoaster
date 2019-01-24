@@ -57,7 +57,7 @@ a0x = 0;
  x0 = xPosit(length(xPosit));
  y0 = yPosit(length(yPosit));
  z0 = zPosit(length(zPosit));
- r = 5; %loop Raduis
+ r = 2; %loop Raduis
  
  [ TimeNew GNew LocaNew VelocNew ] = CircularLoop(xVeloc, t, r, x0, y0, z0,h0);
 
@@ -135,3 +135,8 @@ t0 = 0;
  zPosit = cat(1,zPosit,LocaNew(3,:)');
  xVeloc = cat(1,xVeloc,VelocNew');
  t = cat(1,Time,TimeNew);
+
+ 
+ %% plot
+ 
+ plot3(xPosit,yPosit,zPosit)
