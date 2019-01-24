@@ -1,4 +1,4 @@
-function [ TimeElapsed Outputs ] = RampDown(VelocIn,AccelrX, AccelrY, TimeIn, RampAngle, Length, y0, x0, z0, RollerHeight )
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = RampDown(v0,a0x, a0y, t0, RampAngle, Length, y0, x0, z0, RollerHeight )
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
@@ -73,22 +73,25 @@ AccelerationFinal = ax;
 
 %% velocity: since acceleration is constant, we can go ahead and use kinematick equations.
 
-%{ we can also get it from the height, which is inputted by the user. 
-
-RampHeight = Length * sind ( RampAngle );
-RampWidth = Length * cosd ( RampAngle );
-
-% store as output
-PositionFinalX = x0 + RampWidth;
-PositionFinalY = y0 - RampHeight;
-
 % get final velocity based on height.
 syms h
 v(h) = sqrt ( 2 * g * (RollerHeight - h)) ; 
 
 
+
+%% position 
+
+%{ we can also get it from the height, which is inputted by the user. 
+
+RampHeight = Length * sind ( RampAngle );
+RampWidth = Length * cosd ( RampAngle );
+
 %evaluate veloc function defined above.
 VelocFinal = double(v(y0 - RampHeight));
+
+% store as output
+PositionFinalX = x0 + RampWidth;
+PositionFinalY = y0 - RampHeight;
 
 
 %% time spent: since acceleration is constant, we can go ahead and use kinematic equations.
@@ -100,13 +103,13 @@ VelocFinal = double(v(y0 - RampHeight));
 % Again the coordinate system is tilted, but the time should be the same.
 
 
-TimeElapsed =  ( (VelocFinal - VelocIn) / ax ) * TimeIn ;
+TimeElapsed =  ( (VelocFinal - v0) / ax ) + t0 ;
 
 
 
 %% G's felt.
 
-G =  cosd(theta) ; 
+G =  cosd(RampAngle) ; 
 fprintf('The Ramp down will make you feel: %6.2f %12.8f \n ', G)
 fprintf(' G, forward. \n ' );
 
@@ -115,5 +118,8 @@ fprintf(' G, forward. \n ' );
 % All G's here are forward.
 Outputs = [ PositionFinalX ; PositionFinalY ; z0 ; G  ] ;
 
+Outputs_G = [G];
+Outputs_Loc = [ PositionFinalX ; PositionFinalY ; z0 ];
+Outputs_Velocity = [ VelocFinal ] ;
 
 end

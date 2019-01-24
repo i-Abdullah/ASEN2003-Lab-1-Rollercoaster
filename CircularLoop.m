@@ -1,4 +1,4 @@
-function [ TimeElapsed  Outputs ] = CircularLoop(V0, t0, r, x0, y0, z0,RollerHeight)
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = CircularLoop(V0, t0, r, x0, y0, z0,RollerHeight)
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
@@ -63,32 +63,44 @@ thetaStep = 0:0.1:360;
 g = 9.81;
 
 
-syms theta_current 
+%syms theta_current 
 
-currentHeight(theta_current) = y0 + r - r*cosd(theta_current);
-currentX(theta_current) = x0 + r*sind(theta_current);
+currentHeight = y0 + (r - r*cosd(thetaStep));
+currentX = x0 + r*sind(thetaStep);
 
 %
-syms currentHeight
-v(theta_current) = sqrt ( 2 * g * (RollerHeight - (y0 + r - r*cosd(theta_current)))) ; 
+%syms currentHeight
+v = sqrt ( 2 * g * (RollerHeight - (y0 + r - r*cosd(thetaStep)))) ; 
 
 % get value for  accelration 
 
-an = (v^2)/r %normal accelration
-at = g*sind(theta_current); %tangential accelration
+an = (v.^2)/r; %normal accelration
+at = g*sind(thetaStep); %tangential accelration
 
-Normal(theta_current) = (an) + g*cosd(theta_current) ; % normal force (N divided by m, so later you can just multiply by 1/g!) to get g's.
+Normal = (an) + g*cosd(thetaStep) ; % normal force (N divided by m, so later you can just multiply by 1/g!) to get g's.
 
 % Normal force will make the 
 
 
-
-%% outputs
+%% prepare outputs
 
 zf = 1; %final z position, will assume it's one because cart needs to go into the page to finish the loop.
 
-G = double(Normal(thetaStep)/9.81);
+% sub in thetas to get current points:
 
-Outputs = [ currentHeight ; currentX ; G ] ;
+OutputY = currentHeight;
+OutputX = currentX;
+OutputZ = linspace(z0,zf,length(OutputX));
+
+
+G = double(Normal./9.81);
+
+%% write outputs
+
+Outputs_G = [ G ] ;
+Outputs_Loc = [ OutputX ; OutputY ; OutputZ ] ;
+Outputs_Velocity = [ v ] ;
+
+TimeElapsed = 0 ;
 
 end
