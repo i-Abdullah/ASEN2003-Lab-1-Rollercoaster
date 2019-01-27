@@ -1,4 +1,4 @@
-function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity Arclength ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
 
 %{ This function is to describe the motion of the cart on a parabolic hill. Using 
 % Physics we know that this thing will be under projectile motion
@@ -13,6 +13,7 @@ function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = ParabolaicHill
 %
 %
 %
+
 
 g = 9.81;
 
@@ -57,11 +58,19 @@ while y0<=y_loop
     
 end
 
+%Calculate the arc length of the parabola
+b = CurrentX(end) - x0;
+a = max(CurrentY) - y0;
+s = sqrt(b^2+(16*a^2));
+Arclength = (s/2) + (b^2/(8*a)) * log(((4*a)+s)/b);
 %% write outputs 
-
+Arclength = [Arclength];
     Outputs_Loc = [ CurrentX' ; CurrentY' ; CurrentZ' ] ;
     Outputs_Velocity = [ CurrentVy' ; CurrentVx' ] ;
-    Outputs_G = [ zeros(1,length(CurrentX)) ] ;  
+    Outputs_G = [ zeros(1,length(CurrentX)) ] ; 
+    G = zeros(1,length(CurrentX));
+fprintf('The parabolic hill generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
+fprintf(' G, forward and upward. \n ' );
 
 
 end

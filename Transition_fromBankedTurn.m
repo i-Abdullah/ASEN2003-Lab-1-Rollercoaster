@@ -1,4 +1,4 @@
-function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ArcLength ] = Transition_out(t0,x0, y0, z0,theta, r)
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ArcLength] = Transition_fromBankedTurn(t0,x0, y0, z0,theta, r)
 
 g = 9.81;
 
@@ -6,12 +6,12 @@ g = 9.81;
 
 ArcLength = theta * pi / 180 * r;
 
-ThetaRange = (360 - theta : 360)';
+ThetaRange = (180 : (180 + theta))';
 
 % get location
-CurrentY = y0 + r * cosd(360 - theta) - r * cosd(ThetaRange); %height as a function of theta
+CurrentY = y0 - r - r * cosd(ThetaRange); %height as a function of theta
 
-CurrentX = x0 - r * sind(360 - theta) + r * sind(ThetaRange);
+CurrentX = x0 + r * sind(ThetaRange);
 
 CurrentZ = z0 * ones(length(ThetaRange),1);
 
@@ -21,12 +21,12 @@ Normal = g * cosd(ThetaRange) + CurrentV.^2/r; % Normal force / m
 
 G = Normal/g;
 
-fprintf('The transition out of the parabolic hill generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
+fprintf('The transition out of the banked turn generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
 fprintf(' G, forward and backward. \n ' );
-
 %% write output
-ArcLength = [ArcLength];
+
 TimeElapsed = [];
+ArcLength =[ArcLength];
 Outputs_G = [ G' ] ;
 Outputs_Loc = [ CurrentX' ; CurrentY' ; CurrentZ' ];
 Outputs_Velocity = [ CurrentV' ] ;

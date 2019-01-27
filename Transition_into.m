@@ -1,4 +1,4 @@
-function [TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity] = Transition_into(t0,x0, y0, z0,theta, Raduis)
+function [TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ArcLength] = Transition_into(t0,x0, y0, z0,theta, Raduis)
 %make transition to up, or into something that's above you.
 %% Gravity
 g = 9.81;
@@ -22,8 +22,11 @@ Normal = g * cosd(ThetaRange) + CurrentV.^2/Raduis; % Normal force / m
 
 G = Normal/g; % G force
 
-%% write output
+fprintf('The transition into the parabolic hill generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
+fprintf(' G, forward and upward. \n ' );
 
+%% write output
+ArcLength = [ArcLength];
 TimeElapsed = [];
 Outputs_G = [ G' ] ;
 Outputs_Loc = [ CurrentX' ; CurrentY' ; CurrentZ' ];

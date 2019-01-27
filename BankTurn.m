@@ -1,11 +1,13 @@
-function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = BankTurn(Banktheta,raduis,x0,y0,z0, RollerCoasterHeight,g )
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ArcLength] = BankTurn(Banktheta,t,raduis,x0,y0,z0, RollerCoasterHeight )
 %% info
 
+g = 9.81;
 
 %% code
-
+% Arc length
+ArcLength = Banktheta * pi / 180 * raduis;
 % height is fixed, thus velocity is.
-v = sqrt ( 2 * g * (RollerCoasterHeight - z0)) ; 
+v = sqrt ( 2 * g * (RollerCoasterHeight - y0)) ; 
 
 % this normal force is devided by m.
 Normal = (((v^2 )/raduis ) * sind(Banktheta)) + g*cosd(Banktheta) ;
@@ -19,25 +21,26 @@ Normal_G = Normal / 9.81 ;
 % Gs felt in the direction lateral to ramp
 Lateral_G = Lateral / 9.81 ; 
 
-% Symbolic function for position 
-syms CurrentTheta
-
-% alpha is the current angel from the horizontal that the particle is @
-CurrentZ = z0 - raduis*sind(CurrentTheta);
-CurrentX = x0 - raduis*cosd(CurrentTheta);
-CurrentY = y0 ; 
-
-
 %substuite from theta = 0 degrees to 180, the whole bank turn.
-alphaRange = 0:0.01:180 ;
+alphaRange = 0:.01:180 ;
 
-CurrentZ = [ z0 ; subs(CurrentZ,alphaRange)' ];
-CurrentX = [ x0 ; subs(CurrentX,alphaRange)' ];
-CurrentY = [ y0 ; ones(1,length(alphaRange))'*y0 ] ;
+
+% use the range of the angles in the equations for the postion in the x, y
+% and z
+CurrentZ = z0 - raduis + raduis*cosd(alphaRange);
+CurrentX = x0 + raduis*sind(alphaRange);
+CurrentY = y0 * ones(length(alphaRange),1) ; 
 
 % write outputs
-Outputs_G = [ Normal_G ; Lateral_G ];
-Outputs_Loc = [ CurrentX  ; CurrentY ; CurrentZ ] ;
+Outputs_G = [ Normal_G*ones(1,length(CurrentX)) ; Lateral_G*ones(1,length(CurrentX)) ];
+ArcLength = [ArcLength];
+Outputs_Loc = [ CurrentX  ; CurrentY' ; CurrentZ ] ;
 Outputs_Velocity = [ ones(1,length(alphaRange))'*v ] ;
+TimeElapsed = [];
+fprintf('The banked turn generates a maximum magnitude of: %6.2f %12.8f and %6.2f %12.8f\n',Normal_G,Lateral_G )
+fprintf(' G, normal and lateral, respectively. \n ' );
+
+
+
 
 end

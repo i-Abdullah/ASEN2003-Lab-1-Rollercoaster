@@ -1,15 +1,8 @@
-function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity] = RampDown(v0, t0, RampAngle, Length, y0, x0, z0, RollerHeight )
+function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = RampDownOpposite(t0,RampAngle, Length, y0, x0, z0)
 % 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
-
-Done by:
-- Abdullah AlMugirun
-- 
-- 
-- Abdulla AlAmeri
-
 This function is one segment of a roller coaster, it attempts to module a
 ramp down, where the user will determine the ramp specifications, and
 initial conditions, and the function will return the end status. 
@@ -18,7 +11,7 @@ note: here all x and y is tilted, so that +x is pointing with the heading
 vector, i.e where the rider is looking.
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Inputs:
-1- v0 : Initial velocity (Total magnitude).
+1- VelocIn : Initial velocity (Total magnitude).
 2- AccelrX : initial accelration in x direction.
 3- AccelrY : initial accelration in y direction.
 4- TimeIn: AccelrX : initial time relative to the whole roller coaster when
@@ -59,7 +52,7 @@ AccelerationFinal = ax;
 
 % get final velocity based on height.
 syms h
-v(h) = sqrt ( 2 * g * (RollerHeight - h)) ; 
+v(h) = sqrt ( 2 * g * (125 - h)) ; 
 
 
 
@@ -74,7 +67,7 @@ RampWidth = Length * cosd ( RampAngle );
 VelocFinal = double(v(y0 - RampHeight));
 
 % store as output
-PositionFinalX = x0 + RampWidth;
+PositionFinalX = x0 - RampWidth;
 PositionFinalY = y0 - RampHeight;
 
 
@@ -87,15 +80,15 @@ PositionFinalY = y0 - RampHeight;
 % Again the coordinate system is tilted, but the time should be the same.
 
 
-TimeElapsed =  ( (VelocFinal - v0) / ax ) + t0 ;
+TimeElapsed = [];
 
 
 
 %% G's felt.
 
 G =  cosd(RampAngle) ; 
-fprintf('The ramp down generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
-fprintf(' G, forward and upward. \n ' );
+fprintf('The second ramp generates a maximum magnitude of: %6.2f %12.8f \n ', abs(max(G)))
+fprintf(' G, forward and backward. \n ' );
 
 %% write outputs
 
