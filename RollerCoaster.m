@@ -381,26 +381,26 @@ AllV = v(yPosit);
  
  figure(1);
  
- color_line3(xPosit,yPosit,zPosit,AllV,'LineWidth',2.5)
- colormap spring
- c = colorbar
- c.Label.String = 'Velocity in m/s'
- grid minor
- title('Velocities in the rollercoaster')
- xlabel('Location in x (m)')
- ylabel('Location in y (m)')
- zlabel('Location in z (m)')
+ color_line3(xPosit,yPosit,zPosit,AllV,'LineWidth',2.5);
+ colormap spring;
+ c = colorbar;
+ c.Label.String = 'Velocity in m/s';
+ grid minor;
+ title('Velocities in the rollercoaster');
+ xlabel('Location in x (m)');
+ ylabel('Location in y (m)');
+ zlabel('Location in z (m)');
  
   figure(2);
  
-  colormap winter
- color_line3(xPosit,yPosit,zPosit,G,'LineWidth',2.5)
- c = colorbar
- c.Label.String = 'G force'
- grid minor
- title('G force over the track of the rollercoaster')
- xlabel('Location in x (m)')
- ylabel('Location in y (m)')
- zlabel('Location in z (m)')
+  colormap winter;
+ color_line3(xPosit,yPosit,zPosit,G,'LineWidth',2.5);
+ c = colorbar;
+ c.Label.String = 'G force';
+ grid minor;
+ title('Totatl G force over the track of the rollercoaster');
+ xlabel('Location in x (m)');
+ ylabel('Location in y (m)');
+ zlabel('Location in z (m)');
 
  
