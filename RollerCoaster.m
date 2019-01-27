@@ -397,7 +397,7 @@ fprintf(' meters. \n ' );
  xlabel('Location in x (right and left) (m)');
  ylabel('Location in y (up and down) (m)');
  zlabel('Location in z (inside and outside) (m)');
-view([50 50]) 
+view([-18 80]) 
 saveas(gcf,'Gforce.jpg')
 
 % -__- !!
@@ -413,7 +413,7 @@ saveas(gcf,'Gforce.jpg')
  xlabel('Location in x (right and left) (m)');
  ylabel('Location in y (up and down) (m)');
  zlabel('Location in z (inside and outside) (m)');
- view([50 50])
+ view([-18 80])
  saveas(gcf,'Velocity.jpg')
 
 
