@@ -377,6 +377,13 @@ length1 = 86.6;
 v = @(h) sqrt ( 2 * g * (h0 - h)) ; 
 
 AllV = v(yPosit);
+
+%% print total distance
+
+fprintf('\n ' );
+fprintf('Total distance covered: %6.2f %12.8f \n ',sum(TotalDistanceCovered))
+fprintf(' meters. \n ' );
+
  %% plot
  
  figure(1);
@@ -387,20 +394,27 @@ AllV = v(yPosit);
  c.Label.String = 'Velocity in m/s';
  grid minor;
  title('Velocities in the rollercoaster');
- xlabel('Location in x (m)');
- ylabel('Location in y (m)');
- zlabel('Location in z (m)');
- 
+ xlabel('Location in x (right and left) (m)');
+ ylabel('Location in y (up and down) (m)');
+ zlabel('Location in z (inside and outside) (m)');
+view([50 50]) 
+saveas(gcf,'Gforce.jpg')
+
+% -__- !!
+
   figure(2);
  
-  colormap winter;
+ colormap winter;
  color_line3(xPosit,yPosit,zPosit,G,'LineWidth',2.5);
  c = colorbar;
  c.Label.String = 'G force';
  grid minor;
  title('Totatl G force over the track of the rollercoaster');
- xlabel('Location in x (m)');
- ylabel('Location in y (m)');
- zlabel('Location in z (m)');
+ xlabel('Location in x (right and left) (m)');
+ ylabel('Location in y (up and down) (m)');
+ zlabel('Location in z (inside and outside) (m)');
+ view([50 50])
+ saveas(gcf,'Velocity.jpg')
+
 
  
