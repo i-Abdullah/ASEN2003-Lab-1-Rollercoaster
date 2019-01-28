@@ -400,6 +400,8 @@ fprintf(' meters. \n ' );
 view([-18 80]) 
 saveas(gcf,'Gforce.jpg')
 
+% name the sections
+
 % -__- !!
 
   figure(2);

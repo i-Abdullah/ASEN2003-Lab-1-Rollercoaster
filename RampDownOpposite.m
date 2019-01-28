@@ -3,37 +3,55 @@ function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ] = RampDownOpposi
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
+
+Done by:
+- Abdullah AlMugirun
+- Mohamed Aichiouene
+- Aufa Amirullah
+- Abdulla AlAmeri
+
 This function is one segment of a roller coaster, it attempts to module a
 ramp down, where the user will determine the ramp specifications, and
-initial conditions, and the function will return the end status. 
+initial conditions, and the function will return the end status. This is a 
+version of the ramp the goes down in a positive slope rather than negative.
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 note: here all x and y is tilted, so that +x is pointing with the heading
 vector, i.e where the rider is looking.
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Inputs:
-1- VelocIn : Initial velocity (Total magnitude).
-2- AccelrX : initial accelration in x direction.
-3- AccelrY : initial accelration in y direction.
-4- TimeIn: AccelrX : initial time relative to the whole roller coaster when
+
+1-  t0: initial time relative to the whole roller coaster when
 the cart started going on the ramp.
-5- RampAngle: relative to horizon, in degrees.
-6- Length: hypotenuse of the ramp.
-7 - y_init: Initial y location of ramp. 
-8 - x_init: Initial x location of ramp.
+
+2- RampAngle: relative to horizon, in degrees.
+
+3- Length: hypotenuse of the ramp.
+
+4- y0: initial y position.
+
+5- x0: initial x position.
+
+6- z0: initial z position.
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 Outputs: 
-1- TimeElapsed : time just spend on this segment.
-2- VelocFinal: In this case all of it will be in direction of +x (read
-note), and assuming no friction it's only function of heignt, and thus all
-of it will transfer after the ramp.
-3- AccelerationFinal: accelration at the end of the ramp. In this case all
-of it will be in direction of +x (read note).
-4- PositionFinalX: Y location, or distance covered in Y direction in
-cartesian coordinates system.
-5- PositionFinalY:  X location, or distance covered in x direction in
-cartesian coordinates system.
-6- G: How many G's felt (relative to Earth's accelration).
-7- RollerHeight: height of roller coaster total.
+
+1- TimeElapsed : time just spent on this segment.
+
+2- Outputs_G: G's at eaxh (x,y,z) coordinate.
+
+3- Outputs_Loc: [ 3 x n ], where each column is one point in (x,y,z).
+
+4- Outputs_Velocity: Velocity at each point on the rollercoaster.
+
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 %}
 
 %% Define constants

@@ -1,18 +1,60 @@
 function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity Arclength ] = ParabolaicHill(t0, y0, x0, z0, theta, a0, v)
-
-%{ This function is to describe the motion of the cart on a parabolic hill. Using 
-% Physics we know that this thing will be under projectile motion
-% conditions (assuming no friction or air resistance). This means the cart
-% will experience 0 G's the whole time. Paramtrize equations will be used to 
 % 
+% ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
-%
-%
-%
-%
-%
-%
-%
+%{
+
+Done by:
+- Abdullah AlMugirun
+- Mohamed Aichiouene
+- Aufa Amirullah
+- Abdulla AlAmeri
+
+This function is one segment of a roller coaster, it attempts to module the
+Parabolaic Hill. This segment follows the free-fall conditions, and hence
+the G's will be == 0 ;
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Inputs:
+
+Inputs:
+
+1-  t0: initial time relative to the whole roller coaster when
+the cart started going on the ramp.
+
+2- y0: initial y position.
+
+3- x0: initial x position.
+
+4- z0: initial y position.
+
+5- theta: angel of initial object @ the beginning, just like lunching an
+object from a cannon.
+
+6- a0: inital accelration.
+
+7- v: initial velocity. 
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Outputs: 
+
+1- TimeElapsed : time just spent on this segment.
+
+2- Outputs_G: G's at eaxh (x,y,z) coordinate.
+
+3- Outputs_Loc: [ 3 x n ], where each column is one point in (x,y,z).
+
+4- Outputs_Velocity: Velocity at each point on the rollercoaster.
+
+5- Arclength : which is equivalent to the total distance covered. 
+
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+%}
 
 
 g = 9.81;

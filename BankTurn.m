@@ -1,5 +1,53 @@
 function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity ArcLength] = BankTurn(Banktheta,t,raduis,x0,y0,z0, RollerCoasterHeight )
-%% info
+% 
+% ASEN 2003: Dynamics, Lab 1, Roller Coaster
+%
+%{
+
+Done by:
+- Abdullah AlMugirun
+- Mohamed Aichiouene
+- Aufa Amirullah
+- Abdulla AlAmeri
+
+This function is one segment of a roller coaster, it attempts to module a
+a bank turn.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Inputs:
+
+1- Banktheta : the angel which the bank it turned at.
+
+2-  t: initial time relative to the whole roller coaster.
+
+3- raduis: Raduis of curvature, which is constant here.
+
+4- y0: initial y position.
+
+5- x0: initial x position.
+
+6- z0: initial z position.
+
+7- RollerHeight: Roller coaster maximum height.
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Outputs: 
+
+1- TimeElapsed : time just spent on this segment.
+
+2- Outputs_G: G's at eaxh (x,y,z) coordinate.
+
+3- Outputs_Loc: [ 3 x n ], where each column is one point in (x,y,z).
+
+4- Outputs_Velocity: Velocity at each point on the rollercoaster.
+
+5- ArcLength: distance covered in this segment. 
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+%}
 
 g = 9.81;
 

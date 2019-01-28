@@ -1,37 +1,58 @@
 function [ TimeElapsed Outputs_G Outputs_Loc Outputs_Velocity Circumference] = CircularLoop(V0, t0, r, x0, y0, z0,RollerHeight)
+% 
 % ASEN 2003: Dynamics, Lab 1, Roller Coaster
 %
 %{
-This function is one segment of a roller coaster, it attempts to module a
-Circular Loop, where the user will determine the ramp specifications, and
-initial conditions, and the function will return the end status. 
-% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Done by:
+- Abdullah AlMugirun
+- Mohamed Aichiouene
+- Aufa Amirullah
+- Abdulla AlAmeri
+
+This function is one segment of a roller coaster, it attempts to module the
+Circular loop with a fixed raduis.
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Inputs:
-1- V0 : Initial velocity (Total magnitude).
-2- t0 : initial time relative to the whole roller coaster when
-the cart started going on the Loop.
-3- r : raduis of the loop.
-4- TimeIn: AccelrX : initial time relative to the whole roller coaster when
+
+Inputs:
+1- v0 : Initial velocity (Total magnitude).
+
+2-  t0: initial time relative to the whole roller coaster when
 the cart started going on the ramp.
-5- y_init : 125 m in this case.
-5- RampAngle: relative to horizon, in degrees.
-6- Length: hypotenuse of the ramp.
-7 - InitialHeight: Initial Height ramp starts from. 
+
+3- r: raduis of circle, which is equivalent to raduis of curvature in this case.
+
+4- x0: initial x position.
+
+5- y0: initial y position.
+
+6- z0: initial z position.
+
+7- RollerHeight: Roller coaster maximum height.
+
 % - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 Outputs: 
-1- TimeElapsed : time just spend on this segment.
-2- VelocFinal: In this case all of it will be in direction of +x (read
-note), and assuming no friction it's only function of heignt, and thus all
-of it will transfer after the ramp.
-3- AccelerationFinal: accelration at the end of the ramp. In this case all
-of it will be in direction of +x (read note).
-4- PositionFinalX: Y location, or distance covered in Y direction in
-cartesian coordinates system.
-5- PositionFinalY:  X location, or distance covered in x direction in
-cartesian coordinates system.
-6- G: How many G's felt (relative to Earth's accelration).
+
+1- TimeElapsed : time just spent on this segment.
+
+2- Outputs_G: G's at eaxh (x,y,z) coordinate.
+
+3- Outputs_Loc: [ 3 x n ], where each column is one point in (x,y,z).
+
+4- Outputs_Velocity: Velocity at each point on the rollercoaster.
+
+5- Circumference : which is equivalent to the total distance covered. 
+
+
+% - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
 %}
+
 
 
 %% using Normal tangent coordinate system.
